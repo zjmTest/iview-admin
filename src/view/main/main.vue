@@ -39,11 +39,12 @@ import TagsNav from './components/tags-nav'
 import User from './components/user'
 import Fullscreen from './components/fullscreen'
 import Language from './components/language'
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
+
 export default {
   name: 'Main',
   components: {
@@ -141,7 +142,6 @@ export default {
     }
   },
   mounted () {
-    console.log(123123123131231)
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
@@ -155,23 +155,23 @@ export default {
     // 文档提示
     this.$Notice.info({
       title: '想快速上手，去看文档吧',
-      duration: 0,
-      render: (h) => {
-        return h('p', {
-          style: {
-            fontSize: '13px'
-          }
-        }, [
-          '点击',
-          h('a', {
-            attrs: {
-              href: 'https://lison16.github.io/iview-admin-doc/#/',
-              target: '_blank'
-            }
-          }, 'iview-admin2.0文档'),
-          '快速查看'
-        ])
-      }
+      duration: 0
+      // render: (h) => {
+      //   return h('p', {
+      //     style: {
+      //       fontSize: '13px'
+      //     }
+      //   }, [
+      //     '点击',
+      //     h('a', {
+      //       attrs: {
+      //         href: 'https://lison16.github.io/iview-admin-doc/#/',
+      //         target: '_blank'
+      //       }
+      //     }, 'iview-admin2.0文档'),
+      //     '快速查看'
+      //   ])
+      // }
     })
   }
 }
