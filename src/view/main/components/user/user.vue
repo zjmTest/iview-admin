@@ -32,6 +32,9 @@ export default {
             this.$router.push({
               name: 'login'
             })
+            setTimeout(() => {
+              window.location.reload() // 刷新 重置路由数据
+            }, 16)
           })
           break
       }
