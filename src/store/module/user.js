@@ -1,5 +1,8 @@
-import { login, logout, getUserInfo } from '@/api/user'
-import { setToken, getToken } from '@/libs/util'
+import { login, logout, getUserInfo } from '@/api/user' //, getUserSysMenu
+import { getRouterReq } from '@/api/routers'
+import { setToken, getToken, routersConfigAssembly } from '@/libs/util'
+// import { menuRefactoring } from '@/libs/business_util'
+import _ from 'lodash'
 
 export default {
   state: {
@@ -29,7 +32,7 @@ export default {
   },
   actions: {
     // 登录
-    handleLogin ({ commit }, {userName, password}) {
+    handleLogin ({ commit }, { userName, password }) {
       userName = userName.trim()
       return new Promise((resolve, reject) => {
         login({
@@ -50,6 +53,7 @@ export default {
         logout(state.token).then(() => {
           commit('setToken', '')
           commit('setAccess', [])
+          commit('setRoutersConfig', { newRouters: [], routersData: [] }) // 变为静态路由
           resolve()
         }).catch(err => {
           reject(err)
@@ -62,7 +66,9 @@ export default {
     },
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {
+    //  debugger;
       return new Promise((resolve, reject) => {
+        // debugger;
         getUserInfo(state.token).then(res => {
           const data = res.data
           commit('setAvator', data.avator)
@@ -74,6 +80,33 @@ export default {
           reject(err)
         })
       })
+    },
+    // 获取用户路由
+    getRoutersConfig ({ state, commit }) {
+      // debugger;
+      // 有标准路由JOSN模式
+      return getRouterReq().then((routersData) => {
+        // debugger;
+        let routersConfig = _.cloneDeep(routersData.data)
+        let newRoutersConfigObj = routersConfigAssembly(routersConfig)
+        commit('setRoutersConfig', { newRouters: newRoutersConfigObj, routersData: routersData.data })
+        return newRoutersConfigObj
+      })
+
+      /* 需要转换菜单JOSN为标准路由JOSN模式 */
+      // return getUserSysMenu().then((routersData) => {
+      //  // debugger;
+      //   //  console.log('获取到用户菜单：' + JSON.stringify(routersData.data))
+      //   // 把菜单列表转为框架标准路由JSON格式
+      //   let newRoutersData = menuRefactoring(routersData.data, '0')
+      //   //  console.log("转换路由："+JSON.stringify(newRoutersData))
+      //   let routersConfig = _.cloneDeep(newRoutersData)
+      //   let newRoutersConfigObj = routersConfigAssembly(routersConfig)
+      //
+      //   commit('setRoutersConfig', { newRouters: newRoutersConfigObj, routersData: newRoutersData })
+      //   return newRoutersConfigObj
+      // })
     }
+
   }
 }
