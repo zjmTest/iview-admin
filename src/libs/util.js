@@ -1,12 +1,17 @@
 import Cookies from 'js-cookie'
 // cookie保存的天数
 import config from '@/config'
+import { routerMap, staticRouters } from '@/router/routersMap'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
+import _ from 'lodash'
 
 export const TOKEN_KEY = 'token'
 
 export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, {expires: config.cookieExpires || 1})
+  Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
+  if (!token || token === '') {
+    localStorage.removeItem('routersConfig')
+  }
 }
 
 export const getToken = () => {
@@ -14,7 +19,39 @@ export const getToken = () => {
   if (token) return token
   else return false
 }
-
+/**
+ * @description 本地存储和获取路由配置
+ */
+export const setRoutersConfig = routers => {
+  localStorage.routersConfig = JSON.stringify(routers)
+}
+/**
+ * @description 本地存储和获取路由配置
+ */
+export const getRoutersConfig = () => {
+  const routers = localStorage.routersConfig
+  return routers ? _.concat(staticRouters, routersConfigAssembly(JSON.parse(routers))) : staticRouters
+}
+/**
+ * @description 路由配置数据组装
+ */
+export const routersConfigAssembly = (routersData) => {
+  // debugger;
+  let routersConfig = routersData.data
+  let traversalRouterData = (obj) => {
+    _.forEach(obj, (value, key) => {
+      if (typeof (obj[key]) === 'object') {
+        traversalRouterData(obj[key])
+      } else if (key === 'component') {
+        // 组装路由组件
+        obj[key] = routerMap[value]
+      }
+    })
+  }
+  // 递归路由数据对象
+  traversalRouterData(routersConfig)
+  return _.differenceBy(routersConfig, staticRouters, 'name')
+}
 export const hasChild = (item) => {
   return item.children && item.children.length !== 0
 }
@@ -135,6 +172,7 @@ const hasAccess = (access, route) => {
  * @description 用户是否可跳转到该页
  */
 export const canTurnTo = (name, access, routes) => {
+  // debugger;
   const routePermissionJudge = (list) => {
     return list.some(item => {
       if (item.children && item.children.length) {
