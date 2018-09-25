@@ -28,3 +28,9 @@ export const logout = (token) => {
     method: 'post'
   })
 }
+export const getUserSysMenu = () => {
+  return axios.request({
+    url: 'getUserSysMenu',
+    method: 'post'
+  })
+}
