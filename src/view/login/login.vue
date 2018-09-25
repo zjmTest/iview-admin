@@ -18,6 +18,7 @@
 <script>
 import LoginForm from '_c/login-form'
 import { mapActions } from 'vuex'
+
 export default {
   components: {
     LoginForm
@@ -25,11 +26,15 @@ export default {
   methods: {
     ...mapActions([
       'handleLogin',
-      'getUserInfo'
+      'getUserInfo',
+      'getRoutersConfig'
     ]),
     handleSubmit ({ userName, password }) {
       this.handleLogin({ userName, password }).then(res => {
-        this.getUserInfo().then(res => {
+        Promise.all([this.getRoutersConfig(), this.getUserInfo()]).then(res => {
+          debugger
+          // 注册新路由配置
+          this.$router.addRoutes(res[0])
           this.$router.push({
             name: 'home'
           })
