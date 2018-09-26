@@ -33,19 +33,19 @@
   </Layout>
 </template>
 <script>
-import SideMenu from './components/side-menu'
-import HeaderBar from './components/header-bar'
-import TagsNav from './components/tags-nav'
-import User from './components/user'
-import Fullscreen from './components/fullscreen'
-import Language from './components/language'
-import { mapActions, mapMutations } from 'vuex'
-import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
-import minLogo from '@/assets/images/logo-min.jpg'
-import maxLogo from '@/assets/images/logo.jpg'
-import './main.less'
+  import SideMenu from './components/side-menu'
+  import HeaderBar from './components/header-bar'
+  import TagsNav from './components/tags-nav'
+  import User from './components/user'
+  import Fullscreen from './components/fullscreen'
+  import Language from './components/language'
+  import {mapActions, mapMutations} from 'vuex'
+  import {getNewTagList, getNextRoute, routeEqual} from '@/libs/util'
+  import minLogo from '@/assets/images/logo-min.jpg'
+  import maxLogo from '@/assets/images/logo.jpg'
+  import './main.less'
 
-export default {
+  export default {
   name: 'Main',
   components: {
     SideMenu,
@@ -94,15 +94,15 @@ export default {
       'handleLogin'
     ]),
     turnToPage (route) {
-      let { name, params, query } = {}
-      if (typeof route === 'string') name = route
+      let {name, params, query} = {};
+      if (typeof route === 'string') name = route;
       else {
-        name = route.name
-        params = route.params
+        name = route.name;
+        params = route.params;
         query = route.query
       }
       if (name.indexOf('isTurnByHref_') > -1) {
-        window.open(name.split('_')[1])
+        window.open(name.split('_')[1]);
         return
       }
       this.$router.push({
@@ -115,20 +115,20 @@ export default {
       this.collapsed = state
     },
     handleCloseTag (res, type, route) {
-      let openName = ''
+      let openName = '';
       if (type === 'all') {
-        this.turnToPage('home')
+        this.turnToPage('home');
         openName = 'home'
       } else if (routeEqual(this.$route, route)) {
         if (type === 'others') {
           openName = route.name
         } else {
-          const nextRoute = getNextRoute(this.tagNavList, route)
-          this.$router.push(nextRoute)
+          const nextRoute = getNextRoute(this.tagNavList, route);
+          this.$router.push(nextRoute);
           openName = nextRoute.name
         }
       }
-      this.setTagNavList(res)
+      this.setTagNavList(res);
       this.$refs.sideMenu.updateOpenName(openName)
     },
     handleClick (item) {
@@ -137,7 +137,7 @@ export default {
   },
   watch: {
     '$route' (newRoute) {
-      this.setBreadCrumb(newRoute.matched)
+      this.setBreadCrumb(newRoute.matched);
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
     }
   },
@@ -145,34 +145,34 @@ export default {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
-    this.setTagNavList()
+    this.setTagNavList();
     this.addTag({
       route: this.$store.state.app.homeRoute
-    })
-    this.setBreadCrumb(this.$route.matched)
+    });
+    this.setBreadCrumb(this.$route.matched);
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
     // 文档提示
-    this.$Notice.info({
-      title: '想快速上手，去看文档吧',
-      duration: 0
-      // render: (h) => {
-      //   return h('p', {
-      //     style: {
-      //       fontSize: '13px'
-      //     }
-      //   }, [
-      //     '点击',
-      //     h('a', {
-      //       attrs: {
-      //         href: 'https://lison16.github.io/iview-admin-doc/#/',
-      //         target: '_blank'
-      //       }
-      //     }, 'iview-admin2.0文档'),
-      //     '快速查看'
-      //   ])
-      // }
-    })
+    // this.$Notice.info({
+    //   title: '想快速上手，去看文档吧',
+    //   duration: 0
+    //   // render: (h) => {
+    //   //   return h('p', {
+    //   //     style: {
+    //   //       fontSize: '13px'
+    //   //     }
+    //   //   }, [
+    //   //     '点击',
+    //   //     h('a', {
+    //   //       attrs: {
+    //   //         href: 'https://lison16.github.io/iview-admin-doc/#/',
+    //   //         target: '_blank'
+    //   //       }
+    //   //     }, 'iview-admin2.0文档'),
+    //   //     '快速查看'
+    //   //   ])
+    //   // }
+    // })
   }
 }
 </script>

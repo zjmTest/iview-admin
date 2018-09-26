@@ -1,6 +1,6 @@
-import { login, logout, getUserInfo } from '@/api/user' //, getUserSysMenu
-import { getRouterReq } from '@/api/routers'
-import { setToken, getToken, routersConfigAssembly } from '@/libs/util'
+import {getUserInfo, login, logout} from '@/api/user' //, getUserSysMenu
+import {getRouterReq} from '@/api/routers'
+import {getToken, routersConfigAssembly, setToken} from '@/libs/util'
 // import { menuRefactoring } from '@/libs/business_util'
 import _ from 'lodash'
 
@@ -10,7 +10,7 @@ export default {
     userId: '',
     avatorImgPath: '',
     token: getToken(),
-    access: ''
+    access: []
   },
   mutations: {
     setAvator (state, avatorPath) {
@@ -26,21 +26,20 @@ export default {
       state.access = access
     },
     setToken (state, token) {
-      state.token = token
+      state.token = token;
       setToken(token)
     }
   },
   actions: {
     // 登录
     handleLogin ({ commit }, { userName, password }) {
-      userName = userName.trim()
+      userName = userName.trim();
       return new Promise((resolve, reject) => {
         login({
           userName,
           password
         }).then(res => {
-          const data = res.data
-          commit('setToken', data.token)
+          commit('setToken', res.data);
           resolve()
         }).catch(err => {
           reject(err)
@@ -51,9 +50,9 @@ export default {
     handleLogOut ({ state, commit }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
-          commit('setToken', '')
-          commit('setAccess', [])
-          commit('setRoutersConfig', { newRouters: [], routersData: [] }) // 变为静态路由
+          commit('setToken', '');
+          commit('setAccess', []);
+          commit('setRoutersConfig', {newRouters: [], routersData: []}); // 变为静态路由
           resolve()
         }).catch(err => {
           reject(err)
@@ -70,11 +69,11 @@ export default {
       return new Promise((resolve, reject) => {
         // debugger;
         getUserInfo(state.token).then(res => {
-          const data = res.data
-          commit('setAvator', data.avator)
-          commit('setUserName', data.user_name)
-          commit('setUserId', data.user_id)
-          commit('setAccess', data.access)
+          const data = res.data;
+          commit('setAvator', data.avator);
+          commit('setUserName', data.user_name);
+          commit('setUserId', data.user_id);
+          commit('setAccess', data.access);
           resolve(data)
         }).catch(err => {
           reject(err)
@@ -86,10 +85,10 @@ export default {
       // debugger;
       // 有标准路由JOSN模式
       return getRouterReq().then((routersData) => {
-        // debugger;
-        let routersConfig = _.cloneDeep(routersData.data)
-        let newRoutersConfigObj = routersConfigAssembly(routersConfig)
-        commit('setRoutersConfig', { newRouters: newRoutersConfigObj, routersData: routersData.data })
+        debugger;
+        let routersConfig = _.cloneDeep(routersData);
+        let newRoutersConfigObj = routersConfigAssembly(routersConfig);
+        commit('setRoutersConfig', {newRouters: newRoutersConfigObj, routersData: routersData});
         return newRoutersConfigObj
       })
 
