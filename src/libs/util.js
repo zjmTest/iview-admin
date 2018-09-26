@@ -4,12 +4,15 @@ import {forEach, hasOneOf, objEqual} from '@/libs/tools'
 import _ from 'lodash'
 
 export const TOKEN_KEY = 'token';
+export const ROUTERS_CONFIG = 'routersConfig';
 
 export const setToken = (token) => {
   // Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
-  localStorage.setItem(TOKEN_KEY, token);
   if (!token || token === '') {
-    localStorage.removeItem('routersConfig')
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(ROUTERS_CONFIG)
+  } else {
+    localStorage.setItem(TOKEN_KEY, token);
   }
 };
 

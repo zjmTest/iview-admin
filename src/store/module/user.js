@@ -85,7 +85,6 @@ export default {
       // debugger;
       // 有标准路由JOSN模式
       return getRouterReq().then((routersData) => {
-        debugger;
         let routersConfig = _.cloneDeep(routersData);
         let newRoutersConfigObj = routersConfigAssembly(routersConfig);
         commit('setRoutersConfig', {newRouters: newRoutersConfigObj, routersData: routersData});
