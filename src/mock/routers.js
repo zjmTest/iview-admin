@@ -8,7 +8,37 @@ export const getRouterData = req => {
         {"path":"*","name":"error_404","meta":{"hideInMenu":true},"component":"Error404"},
         {"path":"","name":"doc","meta":{"title":"文档","href":"https://lison16.github.io/iview-admin-doc/#/","icon":"ios-book"}},
         {"path":"/join","name":"join","component":"Main","children":[{"path":"join_page","name":"join_page","meta":{"icon":"_qq","title":"Q群"},"component":"JoinPage"}]},
+        
         {
+            "path": "/system",
+            "name": "system",
+            "meta": {
+              "icon": "md-menu",
+              "title": "系统管理"
+            },
+            "component": "Main",
+            "children": [
+              {
+                "path": "user-manage",
+                "name": "user-manage",
+                "meta": {
+                  "icon": "md-funnel",
+                  "title": "用户管理"
+                },
+                "component": "userManage"
+              },
+              {
+                "path": "menu-manage",
+                "name": "menu-manage",
+                "meta": {
+                  "icon": "md-funnel",                 
+                  "title": "菜单管理"
+                },
+                 "component": "userManage"
+               }                
+            ]
+          }
+          ,{
             "path": "/components",
             "name": "components",
             "meta": {

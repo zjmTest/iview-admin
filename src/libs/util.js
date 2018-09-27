@@ -12,7 +12,7 @@ export const setToken = (token) => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(ROUTERS_CONFIG)
   } else {
-    localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(TOKEN_KEY, token)
   }
 };
 
@@ -348,4 +348,9 @@ export const routeHasExist = (tagNavList, routeItem) => {
     if (routeEqual(tagNavList[index], routeItem)) res = true
   });
   return res
+};
+
+export const title = function (title) {
+  title = title || '前后端分离开发平台';
+  window.document.title = title
 };
