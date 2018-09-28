@@ -45,6 +45,7 @@ class HttpRequest {
       }
       this.queue[url] = true;
       console.log('req url:' + url);
+      console.log('req config:' + JSON.stringify(config));
 
       return config
     }, error => {

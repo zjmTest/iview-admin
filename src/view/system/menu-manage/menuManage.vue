@@ -5,9 +5,9 @@
   <div class="search">
     <Card>
       <Row class="operation">
-        <Button @click="addMenu" type="primary" icon="md-add">添加子节点</Button>
-        <Button @click="addRootMenu" icon="md-add">添加一级菜单</Button>
-        <Button @click="delAll" icon="md-trash">批量删除</Button>
+        <Button @click="addRootMenu" type="primary" icon="md-add" style="margin-right: 10px;">添加一级菜单</Button>
+        <Button @click="addMenu" icon="md-add" style="margin-right: 10px;">添加(二级菜单/操作按钮)节点</Button>
+        <Button @click="delAll" icon="md-trash" style="margin-right: 10px;">批量删除</Button>
         <Dropdown @on-click="handleDropdown">
           <Button>
             更多操作
@@ -28,7 +28,10 @@
             <a class="select-clear" v-if="menuForm.id" @click="canelEdit">取消选择</a>
           </Alert>
           <Tree :data="data" show-checkbox @on-check-change="changeSelect" @on-select-change="selectTree"></Tree>
-          <Spin size="large" fix v-if="loading"></Spin>
+          <!--  <Spin size="large" fix v-if="loading" >
+             <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
+             <div>Loading</div>
+           </Spin>-->
         </Col>
         <Col span="9">
           <Form ref="menuForm" :model="menuForm" :label-width="85" :rules="menuFormValidate">
@@ -306,6 +309,7 @@
         });
       },
       selectTree(v) {
+
         if (v.length > 0) {
           if (Number(v[0].level) === 1 || Number(v[0].level) === 2) {
             this.isButton = false;
@@ -325,6 +329,7 @@
               v[0][attr] = "";
             }
           }
+
           let str = JSON.stringify(v[0]);
           let menu = JSON.parse(str);
           this.menuForm = menu;
@@ -379,6 +384,8 @@
                 this.init();
                 this.menuModalVisible = false;
               }
+            }).catch(err => {
+              this.submitLoading = false;
             });
           }
         });
@@ -411,6 +418,8 @@
                 this.$Message.success("添加成功");
                 this.init();
                 this.menuModalVisible = false;
+              } else {
+                this.$Message.error(res.message);
               }
             });
           }
