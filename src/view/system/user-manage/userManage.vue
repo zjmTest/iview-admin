@@ -313,7 +313,7 @@
           {
             title: '手机',
             key: 'mobile',
-            width: 115,
+            width: 120,
             sortable: true
             // render: (h, params) => {
             //   if (this.getStore("roles").includes("ROLE_ADMIN")) {
@@ -363,7 +363,7 @@
             title: '状态',
             key: 'status',
             align: 'center',
-            width: 140,
+            width: 150,
             render: (h, params) => {
               let re = '';
               if (params.row.status === '0') {
@@ -376,7 +376,7 @@
                         color: 'success'
                       }
                     },
-                    '正常启用'
+                    '启用'
                   )
                 ])
               } else if (params.row.status === '-1') {
@@ -396,7 +396,7 @@
             },
             filters: [
               {
-                label: '正常启用',
+                label: '启用',
                 value: 0
               },
               {
@@ -406,9 +406,10 @@
             ],
             filterMultiple: false,
             filterMethod(value, row) {
-              if (value === '0') {
+              debugger;
+              if (value === 0) {
                 return row.status === '0'
-              } else if (value === '-1') {
+              } else if (value === -1) {
                 return row.status === '-1'
               }
             }

@@ -25,7 +25,7 @@ export const getRouterData = req => {
                   "icon": "md-funnel",
                   "title": "用户管理"
                 },
-                "component": "userManage"
+                "component": "UserManage"
               },
               {
                 "path": "menu-manage",
@@ -34,7 +34,7 @@ export const getRouterData = req => {
                   "icon": "md-funnel",                 
                   "title": "菜单管理"
                 },
-                 "component": "userManage"
+                 "component": "MenuManage"
                }                
             ]
           }
@@ -100,6 +100,15 @@ export const getRouterData = req => {
                   "title": "富文本编辑器"
                 },
                 "component": "Editor"
+              },
+              {
+                "path": "tree",
+                "name": "tree",
+                "meta": {
+                  "icon": "md-grid",
+                  "title": "树形结构"
+                },
+                "component": "Tree"
               },
               {
                 "path": "icons_page",

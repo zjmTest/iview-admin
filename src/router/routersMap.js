@@ -24,7 +24,10 @@ const Level31 = () => import('@/view/multilevel/level-2-2/level-3-1.vue');
 const Level23 = () => import('@/view/multilevel/level-2-3.vue');
 const Params = () => import('@/view/argu-page/params.vue');
 const Query = () => import('@/view/argu-page/query.vue');
-const userManage = () => import('@/view/system/user-manage/userManage.vue');
+const UserManage = () => import('@/view/system/user-manage/userManage.vue');
+const MenuManage = () => import('@/view/system/menu-manage/menuManage.vue');
+
+const Tree = () => import('@/view/components/tree/tree.vue');
 
 export const routerMap = {
   Main,
@@ -52,7 +55,9 @@ export const routerMap = {
   Level23,
   Params,
   Query,
-  userManage
+  UserManage,
+  Tree,
+  MenuManage
 };
 export const staticRouters = [
   {path: '/login', name: 'login', meta: {title: 'Login - 登录', hideInMenu: true}, component: routerMap['Login']},
