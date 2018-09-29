@@ -28,6 +28,10 @@ const UserManage = () => import('@/view/system/user-manage/userManage.vue');
 const MenuManage = () => import('@/view/system/menu-manage/menuManage.vue');
 
 const Tree = () => import('@/view/components/tree/tree.vue');
+const Access = () => import('@/view/access/access.vue');
+const ChangePass = () => import('@/view/change-pass/change-pass.vue');
+
+
 
 export const routerMap = {
   Main,
@@ -57,7 +61,9 @@ export const routerMap = {
   Query,
   UserManage,
   Tree,
-  MenuManage
+  MenuManage,
+  Access,
+  ChangePass
 };
 export const staticRouters = [
   {path: '/login', name: 'login', meta: {title: 'Login - 登录', hideInMenu: true}, component: routerMap['Login']},

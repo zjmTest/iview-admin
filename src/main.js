@@ -11,6 +11,9 @@ import importDirective from '@/directive'
 import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
+
+import hasPermission from '@/libs/hasPermission';
+
 // 实际打包时应该不引入mock
 /* eslint-disable */
 if (process.env.NODE_ENV !== 'production') require('@/mock');
@@ -27,6 +30,11 @@ Vue.prototype.$config = config;
  * 注册指令
  */
 importDirective(Vue);
+
+/**
+ * 按钮权限
+ */
+Vue.use(hasPermission);
 
 /* eslint-disable no-new */
 new Vue({

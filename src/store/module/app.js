@@ -4,15 +4,16 @@ import {
   getMenuByRouter,
   getNextRoute,
   getRoutersConfig,
+  getRouteTitleHandled,
   getTagNavListFromLocalstorage,
   routeEqual,
   routeHasExist,
   setRoutersConfig,
   setTagNavListInLocalstorage
 } from '@/libs/util'
+
 import {staticRouters} from '@/router/routersMap'
 import _ from 'lodash'
-
 import beforeClose from '@/router/before-close'
 import router from '@/router'
 
@@ -36,8 +37,8 @@ export default {
     menuList: (state, getters, rootState) => getMenuByRouter(state.routersConfig, rootState.user.access)
   },
   mutations: {
-    setBreadCrumb (state, routeMetched) {
-      state.breadCrumbList = getBreadCrumbList(routeMetched, state.homeRoute)
+    setBreadCrumb(state, route) {
+      state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setTagNavList (state, list) {
       if (list) {
@@ -46,6 +47,7 @@ export default {
       } else state.tagNavList = getTagNavListFromLocalstorage()
     },
     closeTag(state, route) {
+
       let tag = state.tagNavList.filter(item => routeEqual(item, route));
       route = tag[0] ? tag[0] : null;
       if (!route) return;
@@ -60,11 +62,12 @@ export default {
       }
     },
     addTag (state, { route, type = 'unshift' }) {
-      if (!routeHasExist(state.tagNavList, route)) {
-        if (type === 'push') state.tagNavList.push(route);
+      let router = getRouteTitleHandled(route);
+      if (!routeHasExist(state.tagNavList, router)) {
+        if (type === 'push') state.tagNavList.push(router);
         else {
-          if (route.name === 'home') state.tagNavList.unshift(route);
-          else state.tagNavList.splice(1, 0, route)
+          if (router.name === 'home') state.tagNavList.unshift(router);
+          else state.tagNavList.splice(1, 0, router)
         }
         setTagNavListInLocalstorage([...state.tagNavList])
       }

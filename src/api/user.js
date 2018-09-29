@@ -63,3 +63,7 @@ export const disableUser = (id, params) => {
 export const deleteUser = (ids, params) => {
   return axios.deleteRequest(`/user/delByIds/${ids}`, params)
 };
+// 个人中心修改密码
+export const changePass = (params) => {
+  return axios.postRequest('/user/modifyPass', params)
+};

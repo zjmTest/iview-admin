@@ -35,7 +35,27 @@ export const getRouterData = req => {
                   "title": "菜单管理"
                 },
                  "component": "MenuManage"
-               }                
+               },
+               {
+                "path": "accessTest",
+                "name": "accessTest",
+                "meta": {
+                  "icon": "md-funnel",                 
+                  "title": "权限按钮测试",
+                  "permTypes":[ "add", "edit", "delete" ],
+                  "access" :["role_admin","admin"]
+                },
+                 "component": "Access"
+               },
+               {
+                "path": "changePass",
+                "name": "changePass",
+                "meta": {
+                  "icon": "md-funnel",                 
+                  "title": "修改密码"              
+                },
+                 "component": "ChangePass"
+               }             
             ]
           }
           ,{
@@ -282,7 +302,8 @@ export const getRouterData = req => {
                 "meta": {
                   "icon": "md-flower",
                   "title": "动态路由",
-                  "notCache": true
+                  "notCache": true,
+                   "beforeCloseName":"before_close_normal"
                 },
                 "component": "Params"
               },
@@ -292,7 +313,8 @@ export const getRouterData = req => {
                 "meta": {
                   "icon": "md-flower",
                   "title": "带参路由",
-                  "notCache": true
+                  "notCache": true,
+                   "beforeCloseName":"before_close_normal"
                 },
                 "component": "Query"
               }

@@ -37,6 +37,7 @@ router.beforeEach((to, from, next) => {
       name: 'home' // 跳转到home页
     })
   } else {
+
     if (store.state.user.hasGetInfo) {
       turnTo(to, store.state.user.access, next)
     } else {
