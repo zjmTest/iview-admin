@@ -10,7 +10,7 @@
         <Card>
           <p slot="title">
             <Icon type="md-contact" style="margin-bottom:2px"></Icon>
-            当前用户
+            当前用户 [{{currUser}}]
           </p>
           <div class="access-user-con access-current-user-con">
             <img :src="avatorPath" alt="">
@@ -101,6 +101,7 @@
       return {
         permTypes: [],
         rolesTypes: [],
+        currUser: "",
         example: "<Button v-has=\"'add'\">添加按钮</Button>",
         exampleRole: "<Button v-hasRole=\"'ROLE_ADMIN'\">添加按钮</Button>",
         columns: [{
@@ -212,7 +213,9 @@
         if (permTypes !== null && permTypes !== undefined) {
           this.permTypes = permTypes;
         }
+
         this.rolesTypes = this.$route.meta.access;
+        this.currUser = this.$store.state.user.userName;
       }
     },
     created() {

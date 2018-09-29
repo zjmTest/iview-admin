@@ -41,7 +41,6 @@
 
 <script>
   import {changePass} from "@/api/user";
-  import store from '@/store'
 
   export default {
     name: "change_pass",
@@ -77,7 +76,8 @@
     },
     methods: {
       init() {
-        this.id = store.state.user.user_id;
+        this.id = this.$store.state.user.userId;
+
       },
       saveEditPass() {
         let params = {

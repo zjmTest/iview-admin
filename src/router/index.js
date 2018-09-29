@@ -38,6 +38,7 @@ router.beforeEach((to, from, next) => {
     })
   } else {
 
+    console.log("当前用户信息hasGetInfo:" + store.state.user.hasGetInfo);
     if (store.state.user.hasGetInfo) {
       turnTo(to, store.state.user.access, next)
     } else {
