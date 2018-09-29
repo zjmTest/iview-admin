@@ -10,11 +10,11 @@
   </Dropdown>
 </template>
 <script>
-import mixin from './mixin'
-import itemMixin from './item-mixin'
-import { findNodeUpperByClasses } from '@/libs/util'
+  import mixin from './mixin'
+  import itemMixin from './item-mixin'
+  import {findNodeUpperByClasses} from '@/libs/util'
 
-export default {
+  export default {
   name: 'CollapsedMenu',
   mixins: [ mixin, itemMixin ],
   props: {
@@ -37,14 +37,14 @@ export default {
       this.$emit('on-click', name)
     },
     handleMousemove (event, children) {
-      const { pageY } = event
-      const height = children.length * 38
-      const isOverflow = pageY + height < window.innerHeight
+      const {pageY} = event;
+      const height = children.length * 38;
+      const isOverflow = pageY + height < window.innerHeight;
       this.placement = isOverflow ? 'right-start' : 'right-end'
     }
   },
   mounted () {
-    let dropdown = findNodeUpperByClasses(this.$refs.dropdown.$el, ['ivu-select-dropdown', 'ivu-dropdown-transfer'])
+    let dropdown = findNodeUpperByClasses(this.$refs.dropdown.$el, ['ivu-select-dropdown', 'ivu-dropdown-transfer']);
     if (dropdown) dropdown.style.overflow = 'visible'
   }
 }

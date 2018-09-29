@@ -11,9 +11,10 @@
 </template>
 
 <script>
-import './user.less'
-import { mapActions } from 'vuex'
-export default {
+  import './user.less'
+  import {mapActions} from 'vuex'
+
+  export default {
   name: 'User',
   props: {
     userAvator: {
@@ -31,11 +32,11 @@ export default {
           this.handleLogOut().then(() => {
             this.$router.push({
               name: 'login'
-            })
+            });
             setTimeout(() => {
               window.location.reload() // 刷新 重置路由数据
             }, 16)
-          })
+          });
           break
       }
     }

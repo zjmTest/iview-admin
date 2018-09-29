@@ -24,12 +24,12 @@
   </div>
 </template>
 <script>
-import SideMenuItem from './side-menu-item.vue'
-import CollapsedMenu from './collapsed-menu.vue'
-import { getUnion } from '@/libs/tools'
-import mixin from './mixin'
+  import SideMenuItem from './side-menu-item.vue'
+  import CollapsedMenu from './collapsed-menu.vue'
+  import {getUnion} from '@/libs/tools'
+  import mixin from './mixin'
 
-export default {
+  export default {
   name: 'SideMenu',
   mixins: [ mixin ],
   components: {
@@ -81,7 +81,7 @@ export default {
       return this.$route.matched.map(item => item.name).filter(item => item !== name)
     },
     updateOpenName (name) {
-      if (name === 'home') this.openedNames = []
+      if (name === 'home') this.openedNames = [];
       else this.openedNames = this.getOpenedNamesByActiveName(name)
     }
   },
@@ -92,7 +92,7 @@ export default {
   },
   watch: {
     activeName (name) {
-      if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
+      if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name);
       else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
     },
     openNames (newNames) {

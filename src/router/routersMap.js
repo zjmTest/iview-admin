@@ -1,4 +1,4 @@
-const Main = () => import('@/view/main');
+const Main = () => import('@/components/main');
 const ParentView = () => import('@/components/parent-view');
 const Login = () => import('@/view/login/login.vue');
 const Home = () => import('@/view/single-page/home');

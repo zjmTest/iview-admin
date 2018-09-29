@@ -35,8 +35,9 @@
 </template>
 
 <script>
-import { showTitle, routeEqual } from '@/libs/util'
-export default {
+  import {routeEqual, showTitle} from '@/libs/util'
+
+  export default {
   name: 'TagsNav',
   props: {
     value: Object,
@@ -63,22 +64,22 @@ export default {
   },
   computed: {
     currentRouteObj () {
-      const { name, params, query } = this.value
+      const {name, params, query} = this.value;
       return { name, params, query }
     }
   },
   methods: {
     handlescroll (e) {
-      var type = e.type
-      let delta = 0
+      var type = e.type;
+      let delta = 0;
       if (type === 'DOMMouseScroll' || type === 'mousewheel') {
         delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40
       }
       this.handleScroll(delta)
     },
     handleScroll (offset) {
-      const outerWidth = this.$refs.scrollOuter.offsetWidth
-      const bodyWidth = this.$refs.scrollBody.offsetWidth
+      const outerWidth = this.$refs.scrollOuter.offsetWidth;
+      const bodyWidth = this.$refs.scrollBody.offsetWidth;
       if (offset > 0) {
         this.tagBodyLeft = Math.min(0, this.tagBodyLeft + offset)
       } else {
@@ -96,19 +97,19 @@ export default {
     handleTagsOption (type) {
       if (type === 'all') {
         // 关闭所有，除了home
-        let res = this.list.filter(item => item.name === 'home')
+        let res = this.list.filter(item => item.name === 'home');
         this.$emit('on-close', res, 'all')
       } else if (type === 'others') {
         // 关闭除当前页和home页的其他页
-        let res = this.list.filter(item => routeEqual(this.currentRouteObj, item) || item.name === 'home')
-        this.$emit('on-close', res, 'others', this.currentRouteObj)
+        let res = this.list.filter(item => routeEqual(this.currentRouteObj, item) || item.name === 'home');
+        this.$emit('on-close', res, 'others', this.currentRouteObj);
         setTimeout(() => {
           this.getTagElementByName(this.currentRouteObj.name)
         }, 100)
       }
     },
     handleClose (current) {
-      let res = this.list.filter(item => !routeEqual(current, item))
+      let res = this.list.filter(item => !routeEqual(current, item));
       this.$emit('on-close', res, undefined, current)
     },
     handleClick (item) {
@@ -121,8 +122,8 @@ export default {
       return routeEqual(this.currentRouteObj, item)
     },
     moveToView (tag) {
-      const outerWidth = this.$refs.scrollOuter.offsetWidth
-      const bodyWidth = this.$refs.scrollBody.offsetWidth
+      const outerWidth = this.$refs.scrollOuter.offsetWidth;
+      const bodyWidth = this.$refs.scrollBody.offsetWidth;
       if (bodyWidth < outerWidth) {
         this.tagBodyLeft = 0
       } else if (tag.offsetLeft < -this.tagBodyLeft) {
@@ -138,10 +139,10 @@ export default {
     },
     getTagElementByName (name) {
       this.$nextTick(() => {
-        this.refsTag = this.$refs.tagsPageOpened
+        this.refsTag = this.$refs.tagsPageOpened;
         this.refsTag.forEach((item, index) => {
           if (name === item.name) {
-            let tag = this.refsTag[index].$el
+            let tag = this.refsTag[index].$el;
             this.moveToView(tag)
           }
         })
@@ -151,9 +152,9 @@ export default {
       if (item.name === 'home') {
         return
       }
-      this.visible = true
-      const offsetLeft = this.$el.getBoundingClientRect().left
-      this.contextMenuLeft = e.clientX - offsetLeft + 10
+      this.visible = true;
+      const offsetLeft = this.$el.getBoundingClientRect().left;
+      this.contextMenuLeft = e.clientX - offsetLeft + 10;
       this.contextMenuTop = e.clientY - 64
     },
     closeMenu () {

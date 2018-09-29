@@ -1,4 +1,5 @@
 import CommonIcon from '_c/common-icon'
+
 export default {
   components: {
     CommonIcon

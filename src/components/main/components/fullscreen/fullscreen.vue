@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     handleFullscreen () {
-      let main = document.body
+      let main = document.body;
       if (this.value) {
         if (document.exitFullscreen) {
           document.exitFullscreen()
@@ -50,24 +50,24 @@ export default {
     }
   },
   mounted () {
-    let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
-    isFullscreen = !!isFullscreen
+    let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+    isFullscreen = !!isFullscreen;
     document.addEventListener('fullscreenchange', () => {
-      this.$emit('input', !this.value)
+      this.$emit('input', !this.value);
       this.$emit('on-change', !this.value)
-    })
+    });
     document.addEventListener('mozfullscreenchange', () => {
-      this.$emit('input', !this.value)
+      this.$emit('input', !this.value);
       this.$emit('on-change', !this.value)
-    })
+    });
     document.addEventListener('webkitfullscreenchange', () => {
-      this.$emit('input', !this.value)
+      this.$emit('input', !this.value);
       this.$emit('on-change', !this.value)
-    })
+    });
     document.addEventListener('msfullscreenchange', () => {
-      this.$emit('input', !this.value)
+      this.$emit('input', !this.value);
       this.$emit('on-change', !this.value)
-    })
+    });
     this.$emit('input', isFullscreen)
   }
 }
