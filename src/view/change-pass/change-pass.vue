@@ -41,6 +41,7 @@
 
 <script>
   import {changePass} from "@/api/user";
+  import {mapActions} from 'vuex'
 
   export default {
     name: "change_pass",
@@ -75,6 +76,9 @@
       };
     },
     methods: {
+      ...mapActions([
+        'handleLogOut'
+      ]),
       init() {
         this.id = this.$store.state.user.userId;
 
@@ -95,10 +99,11 @@
                   title: "修改密码成功",
                   content: "修改密码成功，需重新登录",
                   onOk: () => {
-                    this.$store.commit("handleLogOut", this);
-                    this.$router.push({
-                      name: "login"
-                    });
+                    Promise.all([this.handleLogOut()]).then(res => {
+                      this.$router.push({
+                        name: "login"
+                      })
+                    })
                   }
                 });
               }

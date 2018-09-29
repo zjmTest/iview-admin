@@ -57,6 +57,7 @@ export default {
           commit('setToken', '');
           commit('setAccess', []);
           commit('setRoutersConfig', {newRouters: [], routersData: []}); // 变为静态路由
+          commit('setHasGetInfo', false);
           resolve()
         }).catch(err => {
           reject(err)
