@@ -10,6 +10,15 @@ const router = new Router({
   mode: 'history'
 });
 const LOGIN_PAGE_NAME = 'login';
+
+const turnTo = (to, access, next) => {
+  if (canTurnTo(to.name, access, routes)) {
+    next() // 有权限，可访问
+  } else {
+    next({replace: true, name: 'error_401'}) // 无权限，重定向到401页面
+  }
+};
+
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();
   const token = getToken();
@@ -27,22 +36,18 @@ router.beforeEach((to, from, next) => {
       name: 'home' // 跳转到home页
     })
   } else {
-
-    // 判断是否需要拉取用户信息
-    if (store.state.user.userId == '') {
+    if (store.state.user.hasGetInfo) {
+      turnTo(to, store.state.user.access, next)
+    } else {
       store.dispatch('getUserInfo').then(user => {
-        console.log('拉取用户信息完成')
+        // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
+        turnTo(to, user.access, next)
+      }).catch(() => {
+        next({
+          name: 'login'
+        })
       })
     }
-
-    // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
-    if (canTurnTo(to.name, store.state.user.access, store.state.app.routersConfig)) {
-      next() // 有权限，可访问
-    }
-    else {
-      next({replace: true, name: 'error_401'}) // 无权限，重定向到401页面
-    }
-
 
   }
 });

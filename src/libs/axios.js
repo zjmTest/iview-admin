@@ -19,7 +19,8 @@ class HttpRequest {
     };
     return config
   }
-  distroy (url) {
+
+  destroy(url) {
     delete this.queue[url];
     if (!Object.keys(this.queue).length) {
       // Spin.hide()
@@ -54,7 +55,7 @@ class HttpRequest {
 
     // 响应拦截
     instance.interceptors.response.use(res => {
-      this.distroy(url);
+      this.destroy(url);
       const {data, status} = res;
 
       // 根据返回的code值来做不同的处理(和后端约定)
@@ -66,7 +67,7 @@ class HttpRequest {
       return data
     }, (error) => {
       console.log('error:' + JSON.stringify(error.response));
-      this.distroy(url);
+      this.destroy(url);
 
       // 弹出错误信息
       if (error.response && error.response.data && error.response.data.message !== null) {
