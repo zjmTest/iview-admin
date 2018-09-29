@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import {mapMutations} from 'vuex'
+
 export default {
   name: 'tools_methods_page',
   methods: {
@@ -42,11 +43,6 @@ export default {
           title: `动态路由-${id}`
         }
       }
-      this.addTag({
-        route: route,
-        type: 'push'
-      })
-      console.log(route)
       this.$router.push(route)
     },
     createTagQuery () {
@@ -60,10 +56,6 @@ export default {
           title: `参数-${id}`
         }
       }
-      this.addTag({
-        route: route,
-        type: 'push'
-      })
       this.$router.push(route)
     }
   }
