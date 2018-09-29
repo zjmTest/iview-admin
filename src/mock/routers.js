@@ -192,8 +192,7 @@ export const getRouterData = req => {
                 "name": "tools_methods_page",
                 "meta": {
                   "icon": "ios-hammer",
-                  "title": "工具方法",
-                   beforeCloseName: 'before_close_normal'
+                  "title": "工具方法"                 
                 },
                 "component": "ToolsMethods"
               }
@@ -283,8 +282,7 @@ export const getRouterData = req => {
                 "meta": {
                   "icon": "md-flower",
                   "title": "动态路由",
-                  "notCache": true,
-                  beforeCloseName: 'before_close_normal'
+                  "notCache": true
                 },
                 "component": "Params"
               },

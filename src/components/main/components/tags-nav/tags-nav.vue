@@ -120,7 +120,7 @@
         this.close(current)
       }
     },
-    close(route) {
+    close(current) {
       let res = this.list.filter(item => !routeEqual(current, item));
       this.$emit('on-close', res, undefined, current)
     },

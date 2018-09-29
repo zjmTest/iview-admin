@@ -8,9 +8,10 @@
 </template>
 
 <script>
-import Tables from '_c/tables'
-import { getTableData } from '@/api/data'
-export default {
+  import Tables from '_c/tables'
+  import {getTableData} from '@/api/data'
+
+  export default {
   name: 'tables_page',
   components: {
     Tables
@@ -34,7 +35,7 @@ export default {
                 },
                 on: {
                   'on-ok': () => {
-                    vm.$emit('on-delete', params)
+                    vm.$emit('on-delete', params);
                     vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
                   }
                 }
@@ -60,7 +61,7 @@ export default {
   },
   mounted () {
     getTableData().then(res => {
-      this.tableData = res.data
+      this.tableData = res
     })
   }
 }

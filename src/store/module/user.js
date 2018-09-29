@@ -69,27 +69,26 @@ export default {
     },
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {
-    //  debugger;
       return new Promise((resolve, reject) => {
-          try {
-            getUserInfo(state.token).then(res => {
-              const data = res.data;
-              commit('setAvator', data.avator);
-              commit('setUserName', data.user_name);
-              commit('setUserId', data.user_id);
-              commit('setAccess', data.access);
-              commit('setHasGetInfo', true);
-              resolve(data)
-            }).catch(err => {
-              reject(err)
-            })
-          } catch (error) {
-            reject(error)
-          }
+        try {
+          getUserInfo(state.token).then(res => {
+            const data = res.data;
+            commit('setAvator', data.avator);
+            commit('setUserName', data.user_name);
+            commit('setUserId', data.user_id);
+            commit('setAccess', data.access);
+            commit('setHasGetInfo', true);
+            resolve(data)
+          }).catch(err => {
+            reject(err)
+          })
+        } catch (error) {
+          reject(error)
+        }
+      })
     },
     // 获取用户路由
-        getRoutersConfig({state, commit});
-      {
+    getRoutersConfig({state, commit}) {
       // debugger;
       // 有标准路由JOSN模式
       return getRouterReq().then((routersData) => {
