@@ -27,6 +27,15 @@ export const getRouterData = req => {
                 },
                 "component": "UserManage"
               },
+               {
+                "path": "role-manage",
+                "name": "role-manage",
+                "meta": {
+                  "icon": "md-funnel",
+                  "title": "角色管理"
+                },
+                "component": "RoleManage"
+              },
               {
                 "path": "menu-manage",
                 "name": "menu-manage",

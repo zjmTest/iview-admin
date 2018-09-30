@@ -479,6 +479,7 @@
       changeSelect(v) {
         this.selectCount = v.length;
         this.selectList = v;
+
       },
       delAll() {
         if (this.selectCount <= 0) {

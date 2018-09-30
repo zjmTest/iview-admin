@@ -1,5 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
+//增加浏览器对ES6中的promise的支持，在你的代码头部加载babel-polyfill,注意一定要在你的代码开始前，第一个js文件的顶部
+import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -12,7 +15,8 @@ import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 
-import hasPermission from '@/libs/hasPermission';
+import hasPermission from '@/directive/hasPermission';
+
 
 // 实际打包时应该不引入mock
 /* eslint-disable */

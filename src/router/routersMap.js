@@ -1,4 +1,4 @@
-const Main = () => import('@/components/main');
+const Main = () => import('@/components/main/main.vue');
 const ParentView = () => import('@/components/parent-view');
 const Login = () => import('@/view/login/login.vue');
 const Home = () => import('@/view/single-page/home');
@@ -26,12 +26,10 @@ const Params = () => import('@/view/argu-page/params.vue');
 const Query = () => import('@/view/argu-page/query.vue');
 const UserManage = () => import('@/view/system/user-manage/userManage.vue');
 const MenuManage = () => import('@/view/system/menu-manage/menuManage.vue');
+const RoleManage = () => import('@/view/system/role-manage/roleManage.vue');
 
-const Tree = () => import('@/view/components/tree/tree.vue');
 const Access = () => import('@/view/access/access.vue');
 const ChangePass = () => import('@/view/change-pass/change-pass.vue');
-
-
 
 export const routerMap = {
   Main,
@@ -60,10 +58,10 @@ export const routerMap = {
   Params,
   Query,
   UserManage,
-  Tree,
   MenuManage,
   Access,
-  ChangePass
+  ChangePass,
+  RoleManage
 };
 export const staticRouters = [
   {path: '/login', name: 'login', meta: {title: 'Login - 登录', hideInMenu: true}, component: routerMap['Login']},

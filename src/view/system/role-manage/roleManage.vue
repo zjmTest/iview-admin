@@ -7,10 +7,10 @@
       <Col>
         <Card>
           <Row class="operation">
-            <Button @click="addRole" type="primary" icon="md-add">添加角色</Button>
-            <Button @click="delAll" icon="md-trash">批量删除</Button>
+            <Button @click="addRole" type="primary" icon="md-add" style="margin-right: 10px;">添加角色</Button>
+            <Button @click="delAll" icon="md-trash" style="margin-right: 10px;">批量删除</Button>
             <Button @click="init" icon="md-refresh">刷新</Button>
-            <circleLoading v-if="operationLoading"/>
+            <!-- <circleLoading v-if="operationLoading"/> -->
           </Row>
           <Row>
             <Alert show-icon>
@@ -45,8 +45,9 @@
       </div>
     </Modal>
     <Modal title="分配权限(点击选择)" v-model="permModalVisible" :mask-closable='false' :width="500" :styles="{top: '30px'}"
-           class="permModal">
-      <Tree ref="tree" :data="permData" multiple></Tree>
+           class="permModal" draggable>
+      <Tree ref="tree" :data="permData" multiple show-checkbox @on-check-change="permCheckChange"
+            @on-select-change="permSelectTree"></Tree>
       <Spin size="large" v-if="treeLoading"></Spin>
       <div slot="footer">
         <Button type="text" @click="cancelPermEdit">取消</Button>
@@ -58,26 +59,20 @@
 </template>
 
 <script>
-  import {
-    addRole,
-    deleteRole,
-    editRole,
-    editRolePerm,
-    getAllPermissionList,
-    getRoleList,
-    setDefaultRole
-  } from "@/api/index";
-  import circleLoading from "../../my-components/circle-loading.vue";
+  import {addRole, deleteRole, editRole, editRolePerm, getRoleList, setDefaultRole} from "@/api/system/role";
+
+  import {getAllPermissionList} from "@/api/system/permission";
+  //import circleLoading from "../../my-components/circle-loading.vue";
 
   export default {
     name: "role-manage",
     components: {
-      circleLoading
+      // circleLoading
     },
     data() {
       return {
-        loading: true,
-        treeLoading: true,
+        loading: false,
+        treeLoading: false,
         operationLoading: false,
         submitPermLoading: false,
         sortColumn: "createTime",
@@ -287,8 +282,9 @@
         getRoleList(params).then(res => {
           this.loading = false;
           if (res.success === true) {
-            this.data = res.result.content;
-            this.total = res.result.totalElements;
+            this.data = res.data;
+            //this.total = res.result.totalElements;
+            this.total = 3
           }
         });
       },
@@ -297,8 +293,8 @@
         getAllPermissionList().then(res => {
           this.treeLoading = false;
           if (res.success === true) {
-            this.deleteDisableNode(res.result);
-            this.permData = res.result;
+            this.deleteDisableNode(res.data);
+            this.permData = res.data;
           }
         });
       },
@@ -430,6 +426,16 @@
         this.selectList = e;
         this.selectCount = e.length;
       },
+      permCheckChange(e) {
+
+      },
+      permSelectTree(v) {
+        v.forEach(item => {
+          item.checked = !item.checked;
+          item.selected = false
+        })
+
+      },
       delAll() {
         if (this.selectCount <= 0) {
           this.$Message.warning("您还未选择要删除的数据");
@@ -469,9 +475,11 @@
         let that = this;
         permData.forEach(function (p) {
           if (that.hasPerm(p, rolePerms)) {
-            p.selected = true;
+            // p.selected = true;
+            p.checked = true;
           } else {
-            p.selected = false;
+            // p.selected = false;
+            p.checked = false;
           }
           if (p.children && p.children.length > 0) {
             that.checkPermTree(p.children, rolePerms);
@@ -495,23 +503,24 @@
       // 全选反选
       selectTreeAll() {
         this.selectAllFlag = !this.selectAllFlag;
-        let select = this.selectAllFlag;
-        this.selectedTreeAll(this.permData, select);
+        let selectFlag = this.selectAllFlag;
+        this.selectedTreeAll(this.permData, selectFlag);
       },
       // 递归全选节点
-      selectedTreeAll(permData, select) {
+      selectedTreeAll(permData, selectFlag) {
         let that = this;
         permData.forEach(function (e) {
-          e.selected = select;
+          // e.selected = selectFlag;
+          e.checked = selectFlag;
           if (e.children && e.children.length > 0) {
-            that.selectedTreeAll(e.children, select);
+            that.selectedTreeAll(e.children, selectFlag);
           }
         });
       },
       submitPermEdit() {
         this.submitPermLoading = true;
         let permIds = "";
-        let selectedNodes = this.$refs.tree.getSelectedNodes();
+        let selectedNodes = this.$refs.tree.getCheckedNodes();
         selectedNodes.forEach(function (e) {
           permIds += e.id + ",";
         });
@@ -525,6 +534,9 @@
             this.getRoleList();
             this.permModalVisible = false;
           }
+        }).catch(err => {
+          this.$Message.error("操作失败");
+          this.submitPermLoading = false;
         });
       },
       cancelPermEdit() {
