@@ -35,6 +35,7 @@ class HttpRequest {
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
+
       // 添加全局的loading...
       if (!config.url.includes('/login')) { // 判断是否是登录请求，如果存在的话，则每个http header都加上token
         config.headers['x-access-token'] = 'Bearer ' + getToken()// 请求头加token
@@ -55,6 +56,7 @@ class HttpRequest {
 
     // 响应拦截
     instance.interceptors.response.use(res => {
+
       this.destroy(url);
       const {data, status} = res;
 
@@ -90,7 +92,7 @@ class HttpRequest {
       case 401:
         // 未登录 清除已登录状态
         setToken('');
-        window.location = '/login';
+        // window.location = '/login';
         break;
       case 403:
         // 没有权限
