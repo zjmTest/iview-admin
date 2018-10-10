@@ -5,6 +5,8 @@
 <script>
 import echarts from 'echarts'
 import tdTheme from './theme.json'
+import { off, on } from '@/libs/tools'
+
 echarts.registerTheme('tdTheme', tdTheme)
 export default {
   name: 'ChartPie',
@@ -12,6 +14,16 @@ export default {
     value: Array,
     text: String,
     subtext: String
+  },
+  data () {
+    return {
+      dom: null
+    }
+  },
+  methods: {
+    resize () {
+      this.dom.resize()
+    }
   },
   mounted () {
     this.$nextTick(() => {
@@ -47,15 +59,13 @@ export default {
           }
         ]
       }
-      let dom = echarts.init(this.$refs.dom, 'tdTheme')
-      dom.setOption(option)
+      this.dom = echarts.init(this.$refs.dom, 'tdTheme')
+      this.dom.setOption(option)
+      on(window, 'resize', this.resize)
     })
+  },
+  beforeDestroy () {
+    off(window, 'resize', this.resize)
   }
 }
 </script>
-
-<style lang="less">
-.charts{
-  //
-}
-</style>

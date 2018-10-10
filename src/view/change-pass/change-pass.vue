@@ -22,7 +22,8 @@
             <Input type="password" v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码"></Input>
           </FormItem>
           <FormItem label="新密码" prop="newPass">
-            <Input type="password" v-model="editPasswordForm.newPass" placeholder="请输入新密码，至少6位字符"></Input>
+            <Input type="password" v-model="editPasswordForm.newPass"
+                   placeholder="请输入新密码，密码至少8位且同时包含数字、字母、特殊符号"></Input>
           </FormItem>
           <FormItem label="确认新密码" prop="rePass">
             <Input type="password" v-model="editPasswordForm.rePass" placeholder="请再次输入新密码"></Input>
@@ -40,88 +41,87 @@
 </template>
 
 <script>
-  import {changePass} from "@/api/user";
-  import {mapActions} from 'vuex'
+import { changePassord } from '@/api/user'
+import { mapActions } from 'vuex'
 
-  export default {
-    name: "change_pass",
-    data() {
-      const valideRePassword = (rule, value, callback) => {
-        if (value !== this.editPasswordForm.newPass) {
-          callback(new Error("两次输入密码不一致"));
-        } else {
-          callback();
-        }
-      };
-      return {
-        id: "", // 登录用户的userId
-        savePassLoading: false,
-        editPasswordForm: {
-          oldPass: "",
-          newPass: "",
-          rePass: ""
-        },
-        passwordValidate: {
-          oldPass: [{required: true, message: "请输入原密码", trigger: "blur"}],
-          newPass: [
-            {required: true, message: "请输入新密码", trigger: "blur"},
-            {min: 6, message: "请至少输入6个字符", trigger: "blur"},
-            {max: 32, message: "最多输入32个字符", trigger: "blur"}
-          ],
-          rePass: [
-            {required: true, message: "请再次输入新密码", trigger: "blur"},
-            {validator: valideRePassword, trigger: "blur"}
-          ]
-        }
-      };
-    },
-    methods: {
-      ...mapActions([
-        'handleLogOut'
-      ]),
-      init() {
-        this.id = this.$store.state.user.userId;
-
-      },
-      saveEditPass() {
-        let params = {
-          id: this.id,
-          password: this.editPasswordForm.oldPass,
-          newPass: this.editPasswordForm.newPass
-        };
-        this.$refs["editPasswordForm"].validate(valid => {
-          if (valid) {
-            this.savePassLoading = true;
-            changePass(params).then(res => {
-              this.savePassLoading = false;
-              if (res.success === true) {
-                this.$Modal.success({
-                  title: "修改密码成功",
-                  content: "修改密码成功，需重新登录",
-                  onOk: () => {
-                    Promise.all([this.handleLogOut()]).then(res => {
-                      this.$router.push({
-                        name: "login"
-                      })
-                    })
-                  }
-                });
-              }
-            }).catch(err => {
-              this.savePassLoading = false;
-            });
-          }
-        });
-      },
-      cancelEditPass() {
-        this.$store.commit("closeTag", {
-          name: 'changePass'
-        })
+export default {
+  name: 'change_pass',
+  data () {
+    const valideRePassword = (rule, value, callback) => {
+      if (value !== this.editPasswordForm.newPass) {
+        callback(new Error('两次输入密码不一致'))
+      } else {
+        callback()
       }
-
-    },
-    mounted() {
-      this.init();
     }
-  };
+    return {
+      id: '', // 登录用户的userId
+      savePassLoading: false,
+      editPasswordForm: {
+        oldPass: '',
+        newPass: '',
+        rePass: ''
+      },
+      passwordValidate: {
+        oldPass: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
+        newPass: [
+          { required: true, message: '请输入新密码,密码至少8位且同时包含数字、字母、特殊符号', trigger: 'blur' },
+          { min: 8, message: '请至少输入8个字符', trigger: 'blur' },
+          { max: 16, message: '最多输入16个字符', trigger: 'blur' }
+        ],
+        rePass: [
+          { required: true, message: '请再次输入新密码', trigger: 'blur' },
+          { validator: valideRePassword, trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    ...mapActions([
+      'handleLogOut'
+    ]),
+    init () {
+      this.userId = this.$store.state.user.userId
+    },
+    saveEditPass () {
+      let params = {
+        userId: this.userId,
+        password: this.editPasswordForm.oldPass,
+        newPass: this.editPasswordForm.newPass
+      }
+      this.$refs['editPasswordForm'].validate(valid => {
+        if (valid) {
+          this.savePassLoading = true
+          changePassord(params).then(res => {
+            this.savePassLoading = false
+            if (res.success === true) {
+              this.$Modal.success({
+                title: '修改密码成功',
+                content: '修改密码成功，需重新登录',
+                onOk: () => {
+                  Promise.all([this.handleLogOut()]).then(res => {
+                    this.$router.push({
+                      name: 'login'
+                    })
+                  })
+                }
+              })
+            }
+          }).catch(err => {
+            this.savePassLoading = false
+          })
+        }
+      })
+    },
+    cancelEditPass () {
+      this.$store.commit('closeTag', {
+        name: 'changePass'
+      })
+    }
+
+  },
+  mounted () {
+    this.init()
+  }
+}
 </script>
