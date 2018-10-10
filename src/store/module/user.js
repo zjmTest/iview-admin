@@ -1,6 +1,6 @@
-import {getUserInfo, login, logout} from '@/api/user' //, getUserSysMenu
-import {getRouterReq} from '@/api/routers'
-import {getToken, routersConfigAssembly, setToken} from '@/libs/util'
+import { getUserInfo, login, logout } from '@/api/user' //, getUserSysMenu
+import { getRouterReq } from '@/api/routers'
+import { getToken, routersConfigAssembly, setToken } from '@/libs/util'
 // import { menuRefactoring } from '@/libs/business_util'
 import _ from 'lodash'
 
@@ -24,40 +24,40 @@ export default {
     setUserName (state, name) {
       state.userName = name
     },
-    setLoginId(state, id) {
+    setLoginId (state, id) {
       state.loginId = id
     },
     setAccess (state, access) {
       state.access = access
     },
     setToken (state, token) {
-      state.token = token;
+      state.token = token
       setToken(token)
     },
-    setHasGetInfo(state, status) {
+    setHasGetInfo (state, status) {
       state.hasGetInfo = status
     }
   },
   actions: {
     // 登录
     handleLogin ({ commit }, { userName, password }) {
-      userName = userName.trim();
+      userName = userName.trim()
       return login({
-          userName,
-          password
-        }).then(res => {
-          commit('setToken', res.data);
-        return res.data;
+        userName,
+        password
+      }).then(res => {
+        commit('setToken', res.data)
+        return res.data
       })
     },
     // 退出登录
     handleLogOut ({ state, commit }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
-          commit('setToken', '');
-          commit('setAccess', []);
-          commit('setRoutersConfig', {newRouters: [], routersData: []}); // 变为静态路由
-          commit('setHasGetInfo', false);
+          commit('setToken', '')
+          commit('setAccess', [])
+          commit('setRoutersConfig', { newRouters: [], routersData: [] }) // 变为静态路由
+          commit('setHasGetInfo', false)
           resolve()
         }).catch(err => {
           reject(err)
@@ -67,26 +67,25 @@ export default {
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {
       return getUserInfo(state.token).then(res => {
-        const data = res.data;
-        commit('setAvator', data.avator);
-        commit('setUserName', data.userName);
-        commit('setUserId', data.userId);
-        commit('setLoginId', data.loginId);
-        //commit('setAccess', data.access);
-        commit('setHasGetInfo', true);
+        const data = res.data
+        commit('setAvator', data.avator)
+        commit('setUserName', data.userName)
+        commit('setUserId', data.userId)
+        commit('setLoginId', data.loginId)
+        commit('setAccess', ['role_admin', 'admin', 'super_admin'])
+        commit('setHasGetInfo', true)
 
-        return data;
+        return data
       })
-
     },
     // 获取用户路由
-    getRoutersConfig({state, commit}) {
+    getRoutersConfig ({ state, commit }) {
       // debugger;
       // 有标准路由JOSN模式
       return getRouterReq().then((routersData) => {
-        let routersConfig = _.cloneDeep(routersData);
-        let newRoutersConfigObj = routersConfigAssembly(routersConfig);
-        commit('setRoutersConfig', {newRouters: newRoutersConfigObj, routersData: routersData});
+        let routersConfig = _.cloneDeep(routersData)
+        let newRoutersConfigObj = routersConfigAssembly(routersConfig)
+        commit('setRoutersConfig', { newRouters: newRoutersConfigObj, routersData: routersData })
         return newRoutersConfigObj
       })
 

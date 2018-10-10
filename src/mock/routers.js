@@ -46,16 +46,16 @@ export const getRouterData = req => {
                  "component": "MenuManage"
                },
                {
-                "path": "accessTest",
-                "name": "accessTest",
+                "path": "accessTest1",
+                "name": "accessTest1",
                 "meta": {
                   "icon": "md-funnel",                 
-                  "title": "权限按钮测试",
+                  "title": "权限按钮测试1",
                   "permTypes":[ "add", "edit", "delete" ],
-                  "access" :["role_admin","admin"]
+                  "access" :["role_admin","admin","super_admin"]
                 },
                  "component": "Access"
-               },
+               },               
                {
                 "path": "changePass",
                 "name": "changePass",
