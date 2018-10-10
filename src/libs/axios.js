@@ -51,12 +51,13 @@ class HttpRequest {
 
       return config
     }, error => {
+
+      // 将错误信息继续往上抛，上层可以使用catch进行捕获
       return Promise.reject(error)
     });
 
-    // 响应拦截
+    // 响应拦截(如果后台服务挂了是没有响应的)
     instance.interceptors.response.use(res => {
-
       this.destroy(url);
       const {data, status} = res;
 
@@ -70,15 +71,18 @@ class HttpRequest {
     }, (error) => {
       console.log('error:' + JSON.stringify(error.response));
       this.destroy(url);
-
       // 弹出错误信息
       if (error.response && error.response.data && error.response.data.message !== null) {
         Message.error(error.response.data.message);
         // 根据http错误码跳转到页面
         this.changeByCode(error.response.data.code)
       } else {
-        Message.error('未知错误')
+        Message.error("服务访问失败:" + error.message);
+        // 未登录 清除已登录状态
+        setToken('');
       }
+
+      // 将错误信息继续往上抛，上层可以使用catch进行捕获
       return Promise.reject(error)
     })
   }
@@ -92,7 +96,7 @@ class HttpRequest {
       case 401:
         // 未登录 清除已登录状态
         setToken('');
-        // window.location = '/login';
+        //window.location = '/login';
         break;
       case 403:
         // 没有权限

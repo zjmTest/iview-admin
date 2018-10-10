@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
         turnTo(to, store.state.user.access, next)
       }).catch(() => {
         next({
-          name: 'login'
+          name: 'login' // 跳转到login页
         })
       })
     }

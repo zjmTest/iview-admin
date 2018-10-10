@@ -30,14 +30,28 @@
       'getRoutersConfig'
     ]),
     handleSubmit ({ userName, password }) {
+
+      // 登录
       this.handleLogin({ userName, password }).then(res => {
-        Promise.all([this.getRoutersConfig(), this.getUserInfo()]).then(res => {
-          // 注册新路由配置
-          this.$router.addRoutes(res[0]);
-          this.$router.push({
-            name: 'home'
+        // 获取用户信息
+        this.getUserInfo().then(user => {
+          // 加载菜单
+          this.getRoutersConfig().then(conf => {
+            // 注册新路由配置
+            this.$router.addRoutes(conf);
+            this.$router.push({
+              name: 'home'
+            })
           })
         })
+
+        // Promise.all([this.getUserInfo(),this.getRoutersConfig()]).then(res => {
+        //   // 注册新路由配置
+        //   this.$router.addRoutes(res[0]);
+        //   this.$router.push({
+        //     name: 'home'
+        //   })
+        // })
       })
     }
   }
